@@ -1,0 +1,260 @@
+---
+title: "vfrench3_FinalHomeworkCode_01"
+author: "Victoria French"
+date: "9/16/2021"
+output: html_document
+---
+
+# Homework 1
+
+```{r}
+library('stringr') #load stringr package for subsetting/object manipulation 
+```
+
+## Challenge 1
+
+1. Create a vector of 1, word character strings comprising the first line of the novel Ulysses, by James Joyce: “Stately, plump Buck Mulligan came from the stairhead, bearing a bowl of lather on which a mirror and a razor lay crossed.”
+
+```{r}
+#Assign the quote to value v to use later as a string argument for str_split function 
+v<- "Stately, plump Buck Mulligan came from the stairhead, bearing a bowl of lather on which a mirror and a razor lay crossed"
+```
+
+
+```{r}
+# str_split function vectorizes a string of characters. second argument is the pattern, in this case we want out string split into values divided by a space (meaning you pull out each individual word). Have to change simplify argument to TRUE (default is FALSE) because FALSE will return a single list object of character vectors whereas TRUE returns a character matrix. Important for when you subset later on. 
+v <- str_split(v," ", simplify= TRUE)
+v
+```
+
+2. Then, extract every third element of this vector
+
+```{r}
+#subset the vector v using seq function. seq() generates regular interval sequences. In this case we are starting at element 0 of v to the final element of v and taking every 3rd element. length() generates the length of the argued vector. 
+
+v[seq(from=0, to=length(v), by=3)]
+```
+
+## Challenge 2 
+
+1. Generating a matrix to work on 
+
+```{r}
+#Using the matrix function to generate a functional matrix. The first argument data is assigned the values 1 through 80. The nrow argument is 8 meaning the final matrix will have 8 rows. The ncol (number of columns) is assigned 10. The byrow argument is set to false meaning the data will be placed in the matrix by column. 
+
+m <- matrix(data = 1:80, nrow = 8, ncol = 10, byrow = FALSE)
+m
+```
+
+2. Given the matrix, m, above, extract the 2nd, 3rd, and 6th columns and assign them to the variable x. 
+
+```{r}
+#subset matrix m using single brackets. The row indicator is left blank meaning every row will be included. The column indicator is a vector consisting of 2,3, and 6 meaning the 2nd, 3rd and 6th column will be extracted
+
+x <- m[,c(2,3,6)] 
+x
+```
+
+3. Given the matrix, m, above, extract the 6th to 8th row and assign them to the variable x
+
+```{r}
+#subset the matrix m using single brackets. The row indicator is occupied by 6:8. The colon operator generates  sequence from a to b. The column indicator is left empty meaning all columns are included in the final subset. 
+
+x<- m[6:8,]
+x
+```
+
+4. Given the matrix, m, above, extract the elements from row 2, column 2 to row 6, column 9 and assign them to the variable x
+
+```{r}
+#Subset the matrix m using single brackets. Row indicator extracts rows 2 through 6. Column indicator extracts 2 through 9. 
+
+x<-m[2:6,2:9]
+x
+```
+
+*Here you want to pull out all the numbers between the points in the matrix (2,2, all the way through 6,9), not just the block inbetween. You can do this by identifying each point in the matrix and then putting the colon between those points: x<-m[2,2]:m[6,9]. Remeber the commas indicate "row,column" and the colons mean "through" -Mel*
+
+
+## Challenge 3 
+
+1. Construct a 4-dimensional, 400 element array (5 x 5 x 4 x 4) named a consisting of the numbers 400 to 1 (i.e., a descending series)
+
+```{r}
+#Using the array function to generate a functional array. The data argument has 400:1 using the colon operator to generate the numbers 400 through 1 inclusive. The data therefore is generated in a descending order as 400 is the starting value. 
+
+#The dim argument outlines dimensional attributes of the array. The argument is always a integer vector. 5 attributes of the 1st dimension, 5 attributes assigned to the second dimension, 4 attributes of the 3rd dimension, and 4 attributes in the 4th dimension. 
+
+a<- array(400:1, dim= c(5,5,4,4))
+a
+```
+
+2. Given this matrix, what would a[1, 1, 1, 2] return?
+
+```{r}
+a[1, 1, 1, 2]
+```
+
+3. Given this matrix, what would a[2, 3, 2, ] return?
+
+```{r}
+a[2, 3, 2, ]
+```
+
+4. Given this matrix, what would a[1:5, 1:5, 3, 3] return?
+
+```{r}
+a[1:5, 1:5, 3, 3]
+```
+
+## Challenge 4
+
+1. Create a list representing this (simplified) primate taxonomy:
+
+  - Primates
+    - Haplorhini
+      - Anthropoidea
+        - Platyrrhini
+          - Cebidae
+          - Atelidae
+          - Pitheciidae
+        - Catarrhini
+          - Cercopithecidae
+          - Hylobatidae
+          - Hominidae
+      - Tarsioidea
+        - Tarsiidae
+    - Strepsirhini
+      - Lorisoidea
+        - Lorisidae
+        - Galagidae
+      - Lemuroidea
+        - Cheirogaleidae
+        - Lepilemuridae
+        - Indriidae
+        - Lemuridae
+        - Daubentoniidae
+      
+```{r}
+#Strepsirhini already outlined in the module 
+Lemuroidea <- c("Cheirogaleidae", "Lepilemuridae", "Indriidae", "Lemuridae",
+    "Daubentoniidae") 
+Lorisoidea <- c("Lorisidae", "Galagidae")
+Strepsirhini <- list(Lemuroidea, Lorisoidea)
+Strepsirhini
+names(Strepsirhini) <- list("Lemuroidea", "Lorisoidea")
+Strepsirhini
+```
+
+```{r}
+#Beginning of my code. Haplorhini list. Begin defining the lowest level and then combining lower level information into larger lists. 
+
+Tarsioidea <- "Tarsiidae" #assigning Tarsiidae genus to the suborder Tarsioidea as a character value 
+Catarrhini <- c('Cercopithecidae', 'Hylobatidae', 'Hominidae') #assigning the families Cercopithecidae, Hylobatidae and Hominidae to the Catarrhini lineage using the concatenate vector function.  
+Platyrrhini <- c('Cebidae', 'Atelidae', 'Pitheciidae') #assigning the families Cebidae, Atelidae, and Pitheciidae as a character vector
+Anthropoidea <- list(Platyrrhini, Catarrhini) #generating a list (using the list function) that includes the previously defined vector objects Platyrrhini and Catarrhini and assinging that list to an object named Anthropoidea  
+Anthropoidea #printing Anthropoidea 
+```
+
+```{r}
+#since the elements of the list currently are titled 1 and 2, it will be easier to read later if we name them as the lineages. We do this by assigning a list consisting of the character values Platyrrhini and Cattarhini to the function names with the argument being our list object Anthropoidea 
+names(Anthropoidea) <- list('Platyrrhini', 'Cattarhini')
+Anthropoidea
+```
+
+
+```{r}
+#Next we combine the suborders under the Haplorhini classification. 
+Haplorhini <- list(Anthropoidea, Tarsioidea) #generate a list consisting of the Anthropoidea list object and the Tarsioidea vector 
+Haplorhini #print the Haplorhini list object
+```
+
+
+```{r}
+#Again the elements of the list are assigned numeric values which is confusing so we must name the elements as the appropriate character values. 
+names(Haplorhini) <- list('Anthropoidea', 'Tarsioidea')
+Haplorhini
+```
+
+
+```{r}
+#Combine Haplorhini and Strepsirhini under primates using the previous technique. 
+primates <- list(Haplorhini, Strepsirhini)
+primates
+```
+
+
+```{r}
+#Name the elements appropriately 
+names(primates) <- list('Haplorhini', 'Strepsirhini')
+primates
+```
+
+```{r}
+#Finally include the Primate Classification
+taxonomy<- list(primates)
+taxonomy
+```
+
+
+```{r}
+#Name it apprpriately
+names(taxonomy)<- ('Primates')
+taxonomy
+```
+
+
+## Challenge 5 
+
+1. Store the following numbers as a 5 x 3 matrix, called “m3”: 3, 0, 1 ,23, 1, 2, 33, 1, 1, 42, 0, 1, 41, 0, 2. Be sure to fill the matrix **ROW-WISE**.
+
+```{r}
+#Matrix function generates a matrix. The data argument should be defined as a vector of the numeric data. The second argument is the number of rows (5). The third argument as the number of columns (3). Finally the byrow argument should be set as TRUE to fill the matrix in by row. 
+m3<- matrix(data= c(3, 0, 1 ,23, 1, 2, 33, 1, 1, 42, 0, 1, 41, 0, 2), 5,3,byrow = TRUE)
+```
+
+2. Coerce the matrix to a data frame
+
+```{r}
+#functions beginning with as. are coercive functions. Therefore as.data.frame coerces the matrix to a data frame. Assign it to the m3 variable to overwrite the matrix as a data.frame for further downstream analysis/challenges 
+m3 <- as.data.frame(m3)
+m3
+#Verify coercion using functions beginning with is. 
+is.data.frame(m3) 
+```
+
+3. As a data frame, coerce the second column to be logical-valued
+
+```{r}
+#Since the second column was binary you can coerce them into logical (TRUE/FALSE) values. Use as.logical function to coerce the values. The first argument of the function is the data the function should be applied to. In this case we only want it to be applied to a subset of m3 (the 2nd column). To save this coercion assign the function to the same subset of the data frame (m3[,2])
+m3[,2]<- as.logical(m3[,2])
+m3
+is.logical(m3[,2]) #verify the column is logical 
+```
+
+4. As a data frame, coerce the third column to be factor-valued
+
+```{r}
+#Again use as.factor for coercion and the single brackets to subset the data for the argument. Assign to the same subset of data to save the coercion. 
+m3[,3]<- as.factor(m3[,3])
+m3
+is.factor(m3[,3]) #verify 
+```
+
+5. When you are done, use the str() command to show the data type for each variable in your dataframe.
+
+```{r}
+#str function displays internal structure of an R object. Our first variable V1 (column 1) is numeric, V2 is locial and V3 is a factor with 2 levels. 5 observations (rows) of 3 variables (columns)
+str(m3)
+```
+
+## My Biggest Challenges:
+
+1. Coercion during Challenge 5 was confusing as none of my verifying statements were returning true. I realized I wasn't assigning the coercion functions to a variable and therefore my verification functions were reading the original object before coercion. 
+2. The subsetting of the character vector after the using the string split function was originally returning an empty list. I troubleshooted this by identifying the length of the object 'v' and it was returning 1 which didn't make sense. After looking at the documentation of str_split I realized I needed to change the default simplify argument from FALSE to TRUE in order to subset the string using the seq function later on. 
+3. The formatting of the R markdown was also difficult. I tried the notation for headings and subheadings as well as for ordered lists when working with the taxonomy and it wasn't knitting the way I wanted it to. After reading more into R markdown formatting my biggest frustration had one of the most simple solutions. I was not putting spaces in between my formatting symbols and the text I wanted to apply them to. 
+4. When creating the list for the primate taxonomy I found it pretty straight forward until I realized the final print out didn't include the highest classification. It took me a few mintues to realize I could list the primate list object by itself which allowed me to name that object "Primates", finishing all levels of classification. 
+5. NA
+
+
+*Great work, and great annotating! -Mel*
